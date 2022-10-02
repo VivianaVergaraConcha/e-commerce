@@ -1,0 +1,69 @@
+GET http://localhost:2000/api
+
+### Save a new role
+POST http://localhost:2000/api/role
+Content-Type: application/json
+
+{
+  "name": "Vendedorrr"
+}
+
+### Get rol by id
+GET  http://localhost:2000/api/role/CNytLGDmPaCaIWSEZPkIf
+
+### Update a role by id
+PATCH http://localhost:2000/api/role/cuft0fr-bHtNIf-dClJpw
+Content-Type: application/json
+
+{
+  "name": "Vendedor"
+}
+
+### Delete a rol by id
+DELETE http://localhost:2000/api/role/9HSUw1CxqMzmIBea3TTph
+
+### Get all role
+GET  http://localhost:2000/api/role
+
+### Sign up
+POST  http://localhost:2000/api/user/signup
+Content-Type: application/json
+
+{
+  "name": "Pedro",
+  "lastName": "Perez",
+  "email": "pedro.perez@gmail.com",
+  "password": "perez123"
+}
+
+
+### Login
+POST  http://localhost:2000/api/user/login
+Content-Type: application/json
+
+{
+  "email": "pedro.perez@gmail.com",
+  "password": "perez123"
+}
+
+### Refresh user token
+GET http://localhost:2000/api/user/refreshAccessToken/5iNEm2_iFZsabC6wGRMbI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBlZHJvLnBlcmV6QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoicGVyZXoxMjMiLCJpYXQiOjE2NjQ1ODQxMTEsImV4cCI6MTY2NDU4NDcxMX0.oqlaKKnvkD6-1wv4eX3cQlHF7JRbr8Z5nMNsyNKTpqU
+
+
+### Get one user by id
+GET http://localhost:2000/api/user/5iNEm2_iFZsabC6wGRMbI
+
+### Update a user by id
+PATCH http://localhost:2000/api/user/5iNEm2_iFZsabC6wGRMbI
+Content-Type: application/json
+
+{
+  "name": "Pedrito"
+}
+
+### Delete a user by id
+DELETE http://localhost:2000/api/user/EJuNsMKjli6hKr9vTLtjW
+
+### Get all user
+GET  http://localhost:2000/api/user

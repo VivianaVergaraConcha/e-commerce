@@ -1,4 +1,4 @@
 module.exports = {
-  validatorCompiler: require("./validatorCompiler"),
-  auth: require("./auth"),
-};
+  validatorCompiler: require('./validatorCompiler'),
+  auth: require('./auth')
+}

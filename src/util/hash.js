@@ -1,5 +1,5 @@
-const { createHash } = require("node:crypto");
-const { nanoid } = require("nanoid");
+const { createHash } = require('node:crypto')
+const { nanoid } = require('nanoid')
 
 /**
  * It takes a string and a salt, and returns an object with the salt and the
@@ -9,15 +9,15 @@ const { nanoid } = require("nanoid");
  * to make the hash more secure.
  * @returns An object with two properties: salt and result.
  */
-const hashString = (string, salt = "") => {
-  const newSalt = !salt ? nanoid(30) : salt;
-  const hash = createHash("sha256");
+const hashString = (string, salt = '') => {
+  const newSalt = !salt ? nanoid(30) : salt
+  const hash = createHash('sha256')
 
-  hash.update(`${string}${newSalt}`);
+  hash.update(`${string}${newSalt}`)
 
-  const result = hash.digest("hex");
+  const result = hash.digest('hex')
 
-  return { salt: newSalt, result };
-};
+  return { salt: newSalt, result }
+}
 
-module.exports = { hashString };
+module.exports = { hashString }

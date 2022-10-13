@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const httpErrors = require("http-errors");
 
-const { UserService } = require("../../../services");
+const { UserService, ArticleService } = require("../../../services");
 
 const NOT_ALLOWED_TO_BE_HERE = "You are not allowed here!";
 
@@ -56,7 +56,7 @@ const generateTokens = () => {
 
     const payload = { email, password };
     const accessToken = jwt.sign(payload, process.env.SECRET, {
-      expiresIn: "10min",
+      expiresIn: "20min",
     });
     const refreshToken = jwt.sign(payload, process.env.SECRET, {
       expiresIn: "1h",
@@ -77,11 +77,13 @@ const verifyUser = () => {
       const token = getToken(authorization);
       const payload = jwt.verify(token, process.env.SECRET);
       const { email, password } = validateUserPayload(payload);
-      const isLoginCorrect = Boolean(
-        await new UserService({ email, password }).login()
-      );
+      const user = await new UserService({ email, password }).login();
+      const isLoginCorrect = Boolean(user);
 
-      if (isLoginCorrect) return next();
+      if (isLoginCorrect) {
+        req.userID = user._id;
+        return next();
+      }
 
       return next(new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE));
     } catch (error) {
@@ -104,6 +106,29 @@ const verifyIsCurrentUser = () => {
       const isLoginCorrect = Boolean(user);
 
       if (isLoginCorrect && user.id === userId) return next();
+
+      return next(new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE));
+    } catch (error) {
+      return handleError(error, next);
+    }
+  };
+};
+
+const verifyIsOwnerOfArticle = () => {
+  return async (req, res, next) => {
+    try {
+      const {
+        params: { id: articleId },
+        headers: { authorization },
+      } = req;
+      const token = getToken(authorization);
+      const payload = jwt.verify(token, process.env.SECRET);
+      const { email, password } = validateUserPayload(payload);
+      const user = await new UserService({ email, password }).login();
+      const isLoginCorrect = Boolean(user);
+      const article = await new ArticleService({ articleId }).getArticleByID();
+
+      if (isLoginCorrect && article.id === articleId) return next();
 
       return next(new httpErrors.Unauthorized(NOT_ALLOWED_TO_BE_HERE));
     } catch (error) {
@@ -145,5 +170,6 @@ module.exports = {
   generateTokens,
   verifyUser,
   verifyIsCurrentUser,
+  verifyIsOwnerOfArticle,
   refreshAccessToken,
 };

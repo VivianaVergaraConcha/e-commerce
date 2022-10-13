@@ -1,49 +1,42 @@
-const { model, Schema } = require("mongoose");
+const { model, Schema } = require('mongoose')
 
 const UserSchema = new Schema(
   {
-    id: {
-      required: true,
-      type: String,
-      unique: true,
-    },
     name: {
       required: true,
-      type: String,
+      type: String
     },
     lastName: {
       required: true,
-      type: String,
+      type: String
     },
     email: {
       required: true,
-      type: String,
+      type: String
     },
     salt: {
       required: true,
-      type: String,
+      type: String
     },
     hash: {
       required: true,
-      type: String,
+      type: String
     },
     role: {
       required: true,
-      type: Schema.Types.ObjectId,
-      ref: "roles",
+      type: Schema.Types.ObjectId
     },
+    balance: {
+      required: true,
+      type: Number
+    }
   },
   {
     timestamps: true,
-    versionKey: false,
-    toObject: {
-      transform: (_, ret) => {
-        delete ret._id;
-      },
-    },
+    versionKey: false
   }
-);
+)
 
-const UserModel = model("users", UserSchema);
+const UserModel = model('users', UserSchema)
 
-module.exports = UserModel;
+module.exports = UserModel

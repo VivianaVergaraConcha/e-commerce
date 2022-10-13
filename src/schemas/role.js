@@ -1,17 +1,18 @@
-const { Type } = require("@sinclair/typebox");
+const { Type } = require('@sinclair/typebox')
 
 const storeRoleSchema = Type.Object({
-  name: Type.String({ minLength: 5 }),
-});
+  code: Type.Number(),
+  name: Type.String({ minLength: 3 })
+})
 
-const updateRoleSchema = Type.Partial(storeRoleSchema);
+const updateRoleSchema = Type.Partial(storeRoleSchema)
 
 const roleIDSchema = Type.Object({
-  id: Type.String({ minLength: 21, maxLength: 21 }),
-});
+  id: Type.String({ minLength: 24, maxLength: 24 })
+})
 
 module.exports = {
   storeRoleSchema,
   updateRoleSchema,
-  roleIDSchema,
-};
+  roleIDSchema
+}

@@ -4,7 +4,13 @@ const response = require("./response");
 const { auth, validatorCompiler } = require("./utils");
 const { UserService } = require("../../services");
 const {
-  user: { storeUserSchema, updateUserSchema, userIDSchema, userLoginSchema },
+  user: {
+    storeUserSchema,
+    updateUserSchema,
+    userIDSchema,
+    userLoginSchema,
+    chargeSchema,
+  },
 } = require("../../schemas");
 
 const UserRouter = Router();
@@ -12,7 +18,7 @@ const UserRouter = Router();
 UserRouter.route("/").get((req, res) => {
   response({
     error: false,
-    message: "Hello world!",
+    message: "Hello! Welcome to e-commerce",
     res,
     status: 200,
   });
@@ -23,7 +29,7 @@ UserRouter.route("/user/signup").post(
   async (req, res, next) => {
     try {
       const {
-        body: { name, lastName, email, password },
+        body: { name, lastName, email, password, role, balance },
       } = req;
 
       response({
@@ -33,6 +39,8 @@ UserRouter.route("/user/signup").post(
           lastName,
           email,
           password,
+          role,
+          balance,
         }).saveUser(),
         res,
         status: 201,
@@ -97,47 +105,34 @@ UserRouter.route("/user/refreshAccessToken/:id").get(
 );
 
 UserRouter.route("/user/:id")
-  .get(validatorCompiler(userIDSchema, "params"), async (req, res, next) => {
-    try {
-      const {
-        params: { id: id },
-      } = req;
-      const userService = new UserService({ id });
+  .get(
+    validatorCompiler(userIDSchema, "params"),
+    auth.verifyIsCurrentUser(),
+    async (req, res, next) => {
+      try {
+        const {
+          params: { id },
+        } = req;
 
-      response({
-        error: false,
-        message: await userService.getUserByID(),
-        res,
-        status: 200,
-      });
-    } catch (error) {
-      next(error);
+        response({
+          error: false,
+          message: await new UserService({ id }).getUserByID(),
+          res,
+          status: 200,
+        });
+      } catch (error) {
+        next(error);
+      }
     }
-  })
-  .delete(validatorCompiler(userIDSchema, "params"), async (req, res, next) => {
-    try {
-      const {
-        params: { id },
-      } = req;
-      const userService = new UserService({ id: id });
-
-      response({
-        error: false,
-        message: await userService.removeUserByID(),
-        res,
-        status: 200,
-      });
-    } catch (error) {
-      next(error);
-    }
-  })
+  )
   .patch(
     validatorCompiler(userIDSchema, "params"),
     validatorCompiler(updateUserSchema, "body"),
+    auth.verifyIsCurrentUser(),
     async (req, res, next) => {
       const {
-        body: { name, lastName, email, password },
-        params: { id: id },
+        body: { name, lastName, email, password, role, balance },
+        params: { id },
       } = req;
 
       try {
@@ -149,7 +144,29 @@ UserRouter.route("/user/:id")
             lastName,
             email,
             password,
+            role,
+            balance,
           }).updateOneUser(),
+          res,
+          status: 200,
+        });
+      } catch (error) {
+        next(error);
+      }
+    }
+  )
+  .delete(
+    validatorCompiler(userIDSchema, "params"),
+    auth.verifyIsCurrentUser(),
+    async (req, res, next) => {
+      try {
+        const {
+          params: { id },
+        } = req;
+
+        response({
+          error: false,
+          message: await new UserService({ id }).removeUserByID(),
           res,
           status: 200,
         });
@@ -159,13 +176,11 @@ UserRouter.route("/user/:id")
     }
   );
 
-UserRouter.route("/user").get(async (req, res, next) => {
+UserRouter.route("/user").get(auth.verifyUser(), async (req, res, next) => {
   try {
-    const userService = new UserService();
-
     response({
       error: false,
-      message: await userService.getAllUsers(),
+      message: await new UserService().getAllUsers(),
       res,
       status: 200,
     });
@@ -173,5 +188,27 @@ UserRouter.route("/user").get(async (req, res, next) => {
     next(error);
   }
 });
+
+UserRouter.route("/user/charge").post(
+  validatorCompiler(chargeSchema, "body"),
+  auth.verifyUser(),
+  async (req, res, next) => {
+    try {
+      const {
+        userID,
+        body: { amount },
+      } = req;
+
+      response({
+        error: false,
+        message: await new UserService({ id: userID }).chargeBalance(amount),
+        res,
+        status: 200,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports = UserRouter;

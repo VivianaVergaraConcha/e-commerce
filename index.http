@@ -3,67 +3,130 @@ GET http://localhost:2000/api
 ### Save a new role
 POST http://localhost:2000/api/role
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBlZHJvLnBlcmV6QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoicGVyZXoxMjMiLCJpYXQiOjE2NjU1Mzg1NzQsImV4cCI6MTY2NTUzOTc3NH0.qRQX8A2F8NVyxMx7eTG1Xzakk9GQr62zZqcUZeqTVWI
 
 {
-  "name": "Vendedorrr"
+  "name": "otro"
 }
 
 ### Get rol by id
-GET  http://localhost:2000/api/role/CNytLGDmPaCaIWSEZPkIf
+GET  http://localhost:2000/api/role/633739c7455c01671ef431f2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imp1YW4ucm9zYWxlc0BnbWFpbC5jb20iLCJwYXNzd29yZCI6InJvc2FsZXMxMjMiLCJpYXQiOjE2NjU2MTk4ODYsImV4cCI6MTY2NTYyMTA4Nn0.njTsLfjYdO4RwP2x1olctcS-wDSEO0x4SqRxV0OSdmE
+
 
 ### Update a role by id
-PATCH http://localhost:2000/api/role/cuft0fr-bHtNIf-dClJpw
+PATCH http://localhost:2000/api/role/633739c7455c01671ef431f2
 Content-Type: application/json
 
 {
-  "name": "Vendedor"
+  "name": "este"
 }
 
 ### Delete a rol by id
-DELETE http://localhost:2000/api/role/9HSUw1CxqMzmIBea3TTph
+DELETE http://localhost:2000/api/role/63461c0053c78d5c66cd6114
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBlZHJvLnBlcmV6QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoicGVyZXoxMjMiLCJpYXQiOjE2NjU1Mzg1NzQsImV4cCI6MTY2NTUzOTc3NH0.qRQX8A2F8NVyxMx7eTG1Xzakk9GQr62zZqcUZeqTVWI
 
 ### Get all role
 GET  http://localhost:2000/api/role
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imp1YW4ucm9zYWxlc0BnbWFpbC5jb20iLCJwYXNzd29yZCI6InJvc2FsZXMxMjMiLCJpYXQiOjE2NjU2MTk4ODYsImV4cCI6MTY2NTYyMTA4Nn0.njTsLfjYdO4RwP2x1olctcS-wDSEO0x4SqRxV0OSdmE
+
+
+
+
 
 ### Sign up
 POST  http://localhost:2000/api/user/signup
 Content-Type: application/json
 
 {
-  "name": "Pedro",
-  "lastName": "Perez",
-  "email": "pedro.perez@gmail.com",
-  "password": "perez123"
+  "name": "Juan",
+  "lastName": "Rosales",
+  "email": "juan.rosales@gmail.com",
+  "password": "rosales123",
+  "role": "2"
 }
-
 
 ### Login
 POST  http://localhost:2000/api/user/login
 Content-Type: application/json
 
 {
-  "email": "pedro.perez@gmail.com",
-  "password": "perez123"
+  "email": "juan.rosales@gmail.com",
+  "password": "rosales123"
 }
 
 ### Refresh user token
-GET http://localhost:2000/api/user/refreshAccessToken/5iNEm2_iFZsabC6wGRMbI
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBlZHJvLnBlcmV6QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoicGVyZXoxMjMiLCJpYXQiOjE2NjQ1ODQxMTEsImV4cCI6MTY2NDU4NDcxMX0.oqlaKKnvkD6-1wv4eX3cQlHF7JRbr8Z5nMNsyNKTpqU
-
+GET http://localhost:2000/api/user/refreshAccessToken/63446f39cdc9f9c3ae7f4649
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBlZHJvLnBlcmV6QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoicGVyZXoxMjMiLCJpYXQiOjE2NjU0MzQ2NTQsImV4cCI6MTY2NTQzNTg1NH0.MUzGkO6TIQ-8AkDCYoaDGhPp7LaJoTzTnVmEQ_p9GfQ
 
 ### Get one user by id
-GET http://localhost:2000/api/user/5iNEm2_iFZsabC6wGRMbI
+GET http://localhost:2000/api/user/63447635a10f77ea709d341c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBlZHJvLnBlcmV6QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoicGVyZXoxMjMiLCJpYXQiOjE2NjU0MzQ2NTQsImV4cCI6MTY2NTQzNTg1NH0.MUzGkO6TIQ-8AkDCYoaDGhPp7LaJoTzTnVmEQ_p9GfQ
 
 ### Update a user by id
-PATCH http://localhost:2000/api/user/5iNEm2_iFZsabC6wGRMbI
+PATCH http://localhost:2000/api/user/63475633249b34aac0417231
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imp1YW4ucm9zYWxlc0BnbWFpbC5jb20iLCJwYXNzd29yZCI6InJvc2FsZXMxMjMiLCJpYXQiOjE2NjU2MTk4ODYsImV4cCI6MTY2NTYyMTA4Nn0.njTsLfjYdO4RwP2x1olctcS-wDSEO0x4SqRxV0OSdmE
 
 {
-  "name": "Pedrito"
+  "role": 3,
+  "balance": 2000
 }
 
 ### Delete a user by id
-DELETE http://localhost:2000/api/user/EJuNsMKjli6hKr9vTLtjW
+DELETE http://localhost:2000/api/user/6345f9b7f3b3a617d46d7e03
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBlZHJvcy5wZXJlekBnbWFpbC5jb20iLCJwYXNzd29yZCI6InBlcmV6MTIzIiwiaWF0IjoxNjY1NTMwMzA5LCJleHAiOjE2NjU1MzE1MDl9.6-N5cI9T39S4wfev2EoJKxFOfpv2SRkQMBS23C2-NJo
 
 ### Get all user
 GET  http://localhost:2000/api/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imp1YW4ucm9zYWxlc0BnbWFpbC5jb20iLCJwYXNzd29yZCI6InJvc2FsZXMxMjMiLCJpYXQiOjE2NjU2MjY5NzUsImV4cCI6MTY2NTYyODE3NX0.3bzwoVjMTlRCI6abmpmt_D-a0HZb306MVlS9uvQzksM
+
+### Update balance by user id
+POST http://localhost:2000/api/user/charge
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imp1YW4ucm9zYWxlc0BnbWFpbC5jb20iLCJwYXNzd29yZCI6InJvc2FsZXMxMjMiLCJpYXQiOjE2NjU2MjUxOTYsImV4cCI6MTY2NTYyNjM5Nn0.HG9UlfehSGRRlQFKyIYRrnV2zq8oWOYP0Krm9_6-xhw
+
+{
+  "amount": "10000"
+}
+
+
+
+
+### Save a new article
+POST http://localhost:2000/api/article
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imp1YW4ucm9zYWxlc0BnbWFpbC5jb20iLCJwYXNzd29yZCI6InJvc2FsZXMxMjMiLCJpYXQiOjE2NjU2MjY5NzUsImV4cCI6MTY2NTYyODE3NX0.3bzwoVjMTlRCI6abmpmt_D-a0HZb306MVlS9uvQzksM
+
+{
+  "name": "Gomas",
+  "price": 4400,
+  "description": "Goma bicolor"
+}
+
+### Get article by id
+GET http://localhost:2000/api/article/63448b878bf1880f715ef101
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBlZHJvLnBlcmV6QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoicGVyZXoxMjMiLCJpYXQiOjE2NjU0MzY1MjAsImV4cCI6MTY2NTQzNzcyMH0.8vlClRM-7ZKgV-7683HF0lnS19L432cIje0IZIr-U2U
+
+### Update a article by id
+PATCH http://localhost:2000/api/article/63448b878bf1880f715ef101
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBlZHJvLnBlcmV6QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoicGVyZXoxMjMiLCJpYXQiOjE2NjU0MzY1MjAsImV4cCI6MTY2NTQzNzcyMH0.8vlClRM-7ZKgV-7683HF0lnS19L432cIje0IZIr-U2U
+
+{
+  "name": "Lapices"
+}
+
+### Delete a article by id
+DELETE http://localhost:2000/api/article/6344768f15d0abc2100987ab
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBlZHJvLnBlcmV6QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoicGVyZXoxMjMiLCJpYXQiOjE2NjU0MzY1MjAsImV4cCI6MTY2NTQzNzcyMH0.8vlClRM-7ZKgV-7683HF0lnS19L432cIje0IZIr-U2U
+
+
+### Get article by owner
+GET http://localhost:2000/api/article/user/63475633249b34aac0417231
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imp1YW4ucm9zYWxlc0BnbWFpbC5jb20iLCJwYXNzd29yZCI6InJvc2FsZXMxMjMiLCJpYXQiOjE2NjU2MzIxODYsImV4cCI6MTY2NTYzMzM4Nn0.5IKLVChdGfFvcdKEHxNxGwUsilNYmS4D--TmXH5BDBo
+
+### Buy article
+POST http://localhost:2000/api/article/6344767315d0abc2100987a6/buy
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imp1YW4ucm9zYWxlc0BnbWFpbC5jb20iLCJwYXNzd29yZCI6InJvc2FsZXMxMjMiLCJpYXQiOjE2NjU2MzIxODYsImV4cCI6MTY2NTYzMzM4Nn0.5IKLVChdGfFvcdKEHxNxGwUsilNYmS4D--TmXH5BDBo

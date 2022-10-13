@@ -1,13 +1,11 @@
 const httpErrors = require("http-errors");
-const { nanoid } = require("nanoid");
-
 const RoleService = require("./role");
-const {
-  mongo: { queries },
-} = require("../database");
 const {
   hash: { hashString },
 } = require("../util");
+const {
+  mongo: { queries },
+} = require("../database");
 const {
   user: {
     saveUser,
@@ -26,6 +24,7 @@ class UserService {
   #email;
   #password;
   #role;
+  #balance;
 
   /**
    * @param {Object} args
@@ -35,6 +34,7 @@ class UserService {
    * @param {String} args.email
    * @param {String} args.password
    * @param {String} args.role
+   * @param {Number} args.balance
    */
   constructor(args = {}) {
     const {
@@ -43,7 +43,8 @@ class UserService {
       lastName = "",
       email = "",
       password = "",
-      role = "cuft0fr-bHtNIf-dClJpw",
+      role = "",
+      balance = 0,
     } = args;
 
     this.#id = id;
@@ -52,6 +53,7 @@ class UserService {
     this.#email = email;
     this.#password = password;
     this.#role = role;
+    this.#balance = balance;
   }
 
   async verifyUserExists() {
@@ -81,20 +83,18 @@ class UserService {
     if (!this.#role)
       throw new httpErrors.BadRequest("Missing required field: role");
 
+    const role = await new RoleService({ code: this.#role }).getRoleByCode();
     const { salt, result: hash } = hashString(this.#password);
-    const role = await new RoleService({ id: this.#role }).getRoleByID();
 
-    await saveUser({
-      id: nanoid(),
+    return await saveUser({
       name: this.#name,
       lastName: this.#lastName,
       email: this.#email,
       salt,
       hash,
       role: role._id,
+      balance: this.#balance,
     });
-
-    return await getAllUsers();
   }
 
   async getUserByID() {
@@ -113,6 +113,8 @@ class UserService {
     if (!this.#id)
       throw new httpErrors.BadRequest("Missing required field: id");
 
+    await this.verifyUserExists();
+
     const updatePassword = !!this.#password;
     const aux = {};
 
@@ -123,12 +125,18 @@ class UserService {
       aux.hash = hash;
     }
 
+    if (this.#role) {
+      const role = await new RoleService({ code: this.#role }).getRoleByCode();
+      this.#role = role._id;
+    }
+
     return await updateOneUser({
       id: this.#id,
       name: this.#name,
       lastName: this.#lastName,
       email: this.#email,
-      role: this.role,
+      role: this.#role,
+      balance: this.#balance,
       ...aux,
     });
   }
@@ -166,6 +174,27 @@ class UserService {
     if (hash !== result) throw new httpErrors.BadRequest("Bad credentials");
 
     return user;
+  }
+
+  async chargeBalance(amount) {
+    if (!this.#id)
+      throw new httpErrors.BadRequest("Missing required field: id");
+
+    const user = await getUserByID(this.#id);
+
+    return await updateOneUser({
+      id: user.id,
+      balance: user.balance + amount,
+    });
+  }
+
+  async getBalance() {
+    if (!this.#id)
+      throw new httpErrors.BadRequest("Missing required field: id");
+
+    const user = await getUserByID(this.#id);
+
+    return user.balance;
   }
 }
 

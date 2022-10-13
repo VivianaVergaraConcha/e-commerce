@@ -4,13 +4,14 @@ const { RoleModel } = require("../models");
  * It takes a role object, creates a new RoleModel instance, saves it, and returns
  * the saved role
  * @param {Object} role
- * @param {String} role.id
+ * @param {Number} role.code
  * @param {String} role.name
  * @returns The savedRole is being returned.
  */
 const saveRole = async (role) => {
   const savedRole = new RoleModel(role);
   await savedRole.save();
+
   return savedRole;
 };
 
@@ -20,7 +21,8 @@ const saveRole = async (role) => {
  * @returns The first role in the array of roles.
  */
 const getRoleByID = async (id) => {
-  const roles = await RoleModel.find({ id });
+  const roles = await RoleModel.find({ _id: id });
+
   return roles[0];
 };
 
@@ -28,16 +30,19 @@ const getRoleByID = async (id) => {
  * Update the role.
  * @param {Object} role
  * @param {String} role.id
+ * @param {Number} role.code
  * @param {String|undefined} role.name
  * @returns updated role
  */
 const updateOneRole = async (role) => {
   const { id, name } = role;
   const roleUpdated = await RoleModel.findOneAndUpdate(
-    { id },
+    { _id: id },
+    { code },
     { name },
     { new: true }
   );
+
   return roleUpdated;
 };
 
@@ -47,7 +52,8 @@ const updateOneRole = async (role) => {
  * @returns found role
  */
 const removeRoleByID = async (id) => {
-  const role = await RoleModel.findOneAndRemove({ id });
+  const role = await RoleModel.findOneAndRemove({ _id: id });
+
   return role;
 };
 
@@ -58,7 +64,8 @@ const removeRoleByID = async (id) => {
  */
 const getRoleByName = async (name) => {
   const roles = await RoleModel.find({ name });
-  return roles;
+
+  return roles[0];
 };
 
 /**
@@ -66,7 +73,19 @@ const getRoleByName = async (name) => {
  */
 const getAllRoles = async () => {
   const roles = await RoleModel.find();
+
   return roles;
+};
+
+/**
+ * Get a role by code
+ * @param {String} code
+ * @returns The first role in the array of roles.
+ */
+const getRoleByCode = async (code) => {
+  const roles = await RoleModel.find({ code });
+
+  return roles[0];
 };
 
 module.exports = {
@@ -76,4 +95,5 @@ module.exports = {
   removeRoleByID,
   getRoleByName,
   getAllRoles,
+  getRoleByCode,
 };

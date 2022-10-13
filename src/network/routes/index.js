@@ -1,5 +1,6 @@
 module.exports = {
-  userRouter: require("./user"),
-  roleRouter: require("./role"),
-  response: require("./response"),
-};
+  userRouter: require('./user'),
+  roleRouter: require('./role'),
+  articleRouter: require('./article'),
+  response: require('./response')
+}
